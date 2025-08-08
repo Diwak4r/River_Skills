@@ -15,7 +15,7 @@ export async function callGrokAPI(apiKey: string, prompt: string): Promise<strin
             content: prompt
           }
         ],
-        model: 'grok-beta',
+        model: 'grok-2-latest',
         stream: false,
         temperature: 0.7
       }),

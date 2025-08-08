@@ -6,6 +6,7 @@ import { checkRateLimit } from './rate-limit.ts';
 import { validateMessage, sanitizeInput } from './validation.ts';
 import { getSystemPrompt } from './prompts.ts';
 import { callGrokAPI } from './grok-api.ts';
+import { callGeminiAPI } from './gemini-api.ts';
 import type { ChatRequest } from './types.ts';
 
 serve(async (req) => {
@@ -20,11 +21,12 @@ serve(async (req) => {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const grokApiKey = Deno.env.get('GROK_AI_API_KEY');
+    const geminiApiKey = Deno.env.get('GEMINI_API_KEY');
 
-    if (!grokApiKey) {
-      console.error('GROK_AI_API_KEY not found');
+    if (!grokApiKey && !geminiApiKey) {
+      console.error('No AI providers configured');
       return new Response(JSON.stringify({ 
-        error: 'AI service configuration error' 
+        error: 'AI service configuration error: no provider configured' 
       }), {
         status: 503,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -75,11 +77,40 @@ serve(async (req) => {
     const systemPrompt = getSystemPrompt(mode);
     const fullPrompt = `${systemPrompt}\n\nUser question: ${sanitizedMessage}`;
 
-    // Call Grok AI API
-    const aiResponse = await callGrokAPI(grokApiKey, fullPrompt);
+    // Provider fallback: try Grok, then Gemini
+    let aiResponse: string | null = null;
+    let provider = '';
+
+    if (grokApiKey) {
+      try {
+        aiResponse = await callGrokAPI(grokApiKey, fullPrompt);
+        provider = 'grok';
+      } catch (err) {
+        console.error('Grok provider failed:', err);
+      }
+    }
+
+    if (!aiResponse && geminiApiKey) {
+      try {
+        aiResponse = await callGeminiAPI(geminiApiKey, fullPrompt);
+        provider = 'gemini';
+      } catch (err) {
+        console.error('Gemini provider failed:', err);
+      }
+    }
+
+    if (!aiResponse) {
+      return new Response(JSON.stringify({ 
+        error: 'AI service error: all providers failed' 
+      }), {
+        status: 503,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
 
     return new Response(JSON.stringify({ 
-      response: aiResponse 
+      response: aiResponse,
+      provider
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
