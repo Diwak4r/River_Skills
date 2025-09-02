@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -25,10 +25,11 @@ export default function Auth() {
   const navigate = useNavigate();
 
   // Redirect if already logged in
-  if (user) {
-    navigate('/dashboard');
-    return null;
-  }
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -290,7 +291,7 @@ export default function Auth() {
 
         {/* Additional Info */}
         <div className="text-center mt-6 text-sm text-muted-foreground">
-          <p>Need help? <Link to="/support" className="text-primary hover:underline">Contact Support</Link></p>
+          <p>Need help? <Link to="/about" className="text-primary hover:underline">Learn More</Link></p>
         </div>
       </div>
     </div>

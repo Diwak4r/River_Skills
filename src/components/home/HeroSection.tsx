@@ -122,9 +122,9 @@ export default function HeroSection() {
             className="border-2 border-primary/20 hover:border-primary/40 bg-background/80 backdrop-blur px-8 py-4 text-lg"
             asChild
           >
-            <Link to="/demo">
+            <Link to="/courses">
               <Play className="mr-2 w-5 h-5" />
-              Watch Demo
+              Browse Courses
             </Link>
           </Button>
         </div>

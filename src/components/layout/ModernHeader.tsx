@@ -173,9 +173,9 @@ export default function ModernHeader() {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/settings" className="flex items-center gap-2">
+                    <Link to="/dashboard" className="flex items-center gap-2">
                       <Settings className="w-4 h-4" />
-                      Settings
+                      Profile Settings
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
