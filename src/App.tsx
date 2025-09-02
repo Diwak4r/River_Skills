@@ -5,12 +5,16 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
-import ModernIndex from "./pages/ModernIndex";
+
+// Pages
+import RiverSkills20Home from "./pages/RiverSkills20Home";
 import Courses from "./pages/Courses";
 import Resources from "./pages/Resources";
 import AITools from "./pages/AITools";
 import Chat from "./pages/Chat";
 import About from "./pages/About";
+import Auth from "./pages/Auth";
+import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -36,12 +40,14 @@ const App = () => {
             <Toaster />
             <Sonner />
             <Routes>
-              <Route path="/" element={<ModernIndex />} />
+              <Route path="/" element={<RiverSkills20Home />} />
               <Route path="/courses" element={<Courses />} />
               <Route path="/resources" element={<Resources />} />
               <Route path="/ai-tools" element={<AITools />} />
               <Route path="/chat" element={<Chat />} />
               <Route path="/about" element={<About />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/dashboard" element={<Dashboard />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </TooltipProvider>
