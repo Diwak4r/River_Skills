@@ -5,8 +5,7 @@ import { corsHeaders } from './constants.ts';
 import { checkRateLimit } from './rate-limit.ts';
 import { validateMessage, sanitizeInput } from './validation.ts';
 import { getSystemPrompt } from './prompts.ts';
-import { callGrokAPI } from './grok-api.ts';
-import { callGeminiAPI } from './gemini-api.ts';
+import { callOpenRouterAPI } from './openrouter-api.ts';
 import type { ChatRequest } from './types.ts';
 
 serve(async (req) => {
@@ -20,13 +19,12 @@ serve(async (req) => {
     // Initialize environment variables
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const grokApiKey = Deno.env.get('GROK_AI_API_KEY');
-    const geminiApiKey = Deno.env.get('GEMINI_API_KEY');
+    const openRouterApiKey = Deno.env.get('OPENROUTER_API_KEY');
 
-    if (!grokApiKey && !geminiApiKey) {
-      console.error('No AI providers configured');
+    if (!openRouterApiKey) {
+      console.error('OpenRouter API key not configured');
       return new Response(JSON.stringify({ 
-        error: 'AI service configuration error: no provider configured' 
+        error: 'AI service configuration error: OpenRouter API key not configured' 
       }), {
         status: 503,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -77,31 +75,17 @@ serve(async (req) => {
     const systemPrompt = getSystemPrompt(mode);
     const fullPrompt = `${systemPrompt}\n\nUser question: ${sanitizedMessage}`;
 
-    // Provider fallback: try Grok, then Gemini
+    // Use OpenRouter API
     let aiResponse: string | null = null;
-    let provider = '';
+    let provider = 'openrouter';
 
-    if (grokApiKey) {
-      try {
-        aiResponse = await callGrokAPI(grokApiKey, fullPrompt);
-        provider = 'grok';
-      } catch (err) {
-        console.error('Grok provider failed:', err);
-      }
-    }
-
-    if (!aiResponse && geminiApiKey) {
-      try {
-        aiResponse = await callGeminiAPI(geminiApiKey, fullPrompt);
-        provider = 'gemini';
-      } catch (err) {
-        console.error('Gemini provider failed:', err);
-      }
-    }
-
-    if (!aiResponse) {
+    try {
+      aiResponse = await callOpenRouterAPI(openRouterApiKey, fullPrompt);
+      console.log('OpenRouter API response received successfully');
+    } catch (err) {
+      console.error('OpenRouter provider failed:', err);
       return new Response(JSON.stringify({ 
-        error: 'AI service error: all providers failed' 
+        error: 'AI service error: OpenRouter failed' 
       }), {
         status: 503,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
