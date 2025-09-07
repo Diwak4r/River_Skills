@@ -11,7 +11,7 @@ export async function callOpenRouterAPI(apiKey: string, prompt: string): Promise
         'X-Title': 'RiverSkills AI Assistant',
       },
       body: JSON.stringify({
-        model: 'anthropic/claude-3.5-sonnet',
+        model: 'meta-llama/llama-3.1-8b-instruct:free',
         messages: [
           {
             role: 'user',
@@ -20,25 +20,33 @@ export async function callOpenRouterAPI(apiKey: string, prompt: string): Promise
         ],
         stream: false,
         temperature: 0.7,
-        max_tokens: 1500
+        max_tokens: 1000
       }),
     });
+
+    console.log('OpenRouter API response status:', response.status);
 
     if (!response.ok) {
       const errorText = await response.text();
       console.error('OpenRouter API error:', response.status, errorText);
-      throw new Error(`AI service error: ${response.status}`);
+      throw new Error(`OpenRouter API error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
-    console.log('OpenRouter response data:', JSON.stringify(data, null, 2));
+    console.log('OpenRouter response received:', data);
     
     if (!data.choices || data.choices.length === 0) {
-      throw new Error('Unable to generate response. Please try rephrasing your question.');
+      console.error('No choices in OpenRouter response:', data);
+      throw new Error('No response generated from OpenRouter API');
     }
 
     const aiResponse = data.choices[0].message.content;
-    console.log('Generated response length:', aiResponse.length);
+    console.log('Generated response length:', aiResponse?.length || 0);
+    
+    if (!aiResponse) {
+      throw new Error('Empty response from OpenRouter API');
+    }
+    
     return aiResponse;
 
   } catch (error) {
