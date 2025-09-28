@@ -18,32 +18,11 @@ import {
   Award
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
-import CourseCard from '@/components/courses/CourseCard';
-
-// Mock data for demonstration
-const mockUserStats = {
-  coursesEnrolled: 5,
-  coursesCompleted: 2,
-  totalLearningTime: 24,
-  currentStreak: 7,
-  overallProgress: 65,
-  skillsLearned: ['React', 'Python', 'UI/UX Design'],
-  certificates: 3,
-};
-
-const mockRecentCourses = [
-  { id: '1', title: 'React Hooks Mastery', progress: 75, thumbnail: '', instructor: 'John Doe' },
-  { id: '2', title: 'Python for Beginners', progress: 45, thumbnail: '', instructor: 'Jane Smith' },
-  { id: '3', title: 'UI/UX Design Principles', progress: 90, thumbnail: '', instructor: 'Mike Wilson' },
-];
-
-const mockUpcomingDeadlines = [
-  { title: 'React Project Submission', date: '2024-01-25', course: 'React Hooks Mastery' },
-  { title: 'Python Quiz', date: '2024-01-28', course: 'Python for Beginners' },
-];
+import { useUserProgress } from '@/hooks/useUserProgress';
 
 export default function Dashboard() {
   const { user, loading } = useAuth();
+  const { progressData, loading: progressLoading } = useUserProgress();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -95,7 +74,7 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Courses Enrolled</p>
-                    <p className="text-2xl font-bold text-primary">{mockUserStats.coursesEnrolled}</p>
+                    <p className="text-2xl font-bold text-primary">{progressLoading ? '...' : progressData.totalCoursesStarted}</p>
                   </div>
                   <BookOpen className="w-8 h-8 text-primary" />
                 </div>
@@ -107,7 +86,7 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Completed</p>
-                    <p className="text-2xl font-bold text-secondary">{mockUserStats.coursesCompleted}</p>
+                    <p className="text-2xl font-bold text-secondary">{progressLoading ? '...' : progressData.coursesCompleted}</p>
                   </div>
                   <Trophy className="w-8 h-8 text-secondary" />
                 </div>
@@ -119,7 +98,7 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Learning Hours</p>
-                    <p className="text-2xl font-bold text-accent">{mockUserStats.totalLearningTime}h</p>
+                    <p className="text-2xl font-bold text-accent">{progressLoading ? '...' : progressData.hoursLearned}h</p>
                   </div>
                   <Clock className="w-8 h-8 text-accent" />
                 </div>
@@ -131,7 +110,7 @@ export default function Dashboard() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground">Current Streak</p>
-                    <p className="text-2xl font-bold text-orange-600">{mockUserStats.currentStreak} days</p>
+                    <p className="text-2xl font-bold text-orange-600">{progressLoading ? '...' : progressData.streak} days</p>
                   </div>
                   <TrendingUp className="w-8 h-8 text-orange-600" />
                 </div>
@@ -146,33 +125,48 @@ export default function Dashboard() {
               <div>
                 <h2 className="text-2xl font-heading font-bold mb-6">Continue Learning</h2>
                 <div className="space-y-4">
-                  {mockRecentCourses.map((course) => (
-                    <Card key={course.id} className="hover:shadow-lg transition-all duration-300">
-                      <CardContent className="p-6">
-                        <div className="flex items-start space-x-4">
-                          <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                            <BookOpen className="w-8 h-8 text-primary" />
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <h3 className="font-semibold text-lg mb-1">{course.title}</h3>
-                            <p className="text-sm text-muted-foreground mb-3">by {course.instructor}</p>
-                            
-                            <div className="space-y-2">
-                              <div className="flex items-center justify-between text-sm">
-                                <span className="text-muted-foreground">Progress</span>
-                                <span className="font-medium">{course.progress}%</span>
-                              </div>
-                              <Progress value={course.progress} className="h-2" />
+                  {progressLoading ? (
+                    <div className="flex items-center justify-center py-8">
+                      <div className="w-8 h-8 bg-gradient-to-r from-primary to-accent rounded-xl animate-pulse"></div>
+                    </div>
+                  ) : progressData.recentCourses.length > 0 ? (
+                    progressData.recentCourses.map((course) => (
+                      <Card key={course.id} className="hover:shadow-lg transition-all duration-300">
+                        <CardContent className="p-6">
+                          <div className="flex items-start space-x-4">
+                            <div className="w-16 h-16 bg-gradient-to-br from-primary/20 to-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                              <BookOpen className="w-8 h-8 text-primary" />
                             </div>
+                            <div className="flex-1 min-w-0">
+                              <h3 className="font-semibold text-lg mb-1">{course.title}</h3>
+                              <p className="text-sm text-muted-foreground mb-3">by {course.instructor}</p>
+                              
+                              <div className="space-y-2">
+                                <div className="flex items-center justify-between text-sm">
+                                  <span className="text-muted-foreground">Progress</span>
+                                  <span className="font-medium">{course.progress}%</span>
+                                </div>
+                                <Progress value={course.progress} className="h-2" />
+                              </div>
+                            </div>
+                            <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
+                              <Play className="w-4 h-4 mr-2" />
+                              Continue
+                            </Button>
                           </div>
-                          <Button className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90">
-                            <Play className="w-4 h-4 mr-2" />
-                            Continue
-                          </Button>
-                        </div>
-                      </CardContent>
-                    </Card>
-                  ))}
+                        </CardContent>
+                      </Card>
+                    ))
+                  ) : (
+                    <div className="text-center py-8">
+                      <BookOpen className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                      <p className="text-muted-foreground text-lg mb-2">No courses enrolled yet</p>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Start your learning journey by enrolling in your first course!
+                      </p>
+                      <Button onClick={() => navigate('/courses')}>Browse Courses</Button>
+                    </div>
+                  )}
                 </div>
               </div>
 
@@ -188,22 +182,24 @@ export default function Dashboard() {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium">Overall Completion</span>
-                      <span className="text-lg font-bold">{mockUserStats.overallProgress}%</span>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium">Overall Completion</span>
+                        <span className="text-lg font-bold">
+                          {progressLoading ? '...' : progressData.overallProgress}%
+                        </span>
+                      </div>
+                      <Progress value={progressLoading ? 0 : progressData.overallProgress} className="h-3" />
+                      
+                      <div className="flex flex-wrap gap-2 mt-4">
+                        <Badge variant="secondary" className="bg-primary/10 text-primary">
+                          Skills Learned: {progressLoading ? '...' : progressData.skillsLearned.length}
+                        </Badge>
+                        <Badge variant="secondary" className="bg-accent/10 text-accent">
+                          Certificates: {progressLoading ? '...' : progressData.certificates}
+                        </Badge>
+                      </div>
                     </div>
-                    <Progress value={mockUserStats.overallProgress} className="h-3" />
-                    
-                    <div className="flex flex-wrap gap-2 mt-4">
-                      <Badge variant="secondary" className="bg-primary/10 text-primary">
-                        Skills Learned: {mockUserStats.skillsLearned.length}
-                      </Badge>
-                      <Badge variant="secondary" className="bg-accent/10 text-accent">
-                        Certificates: {mockUserStats.certificates}
-                      </Badge>
-                    </div>
-                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -220,16 +216,22 @@ export default function Dashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {mockUpcomingDeadlines.map((deadline, index) => (
-                      <div key={index} className="flex items-start space-x-3 p-3 rounded-lg bg-muted/50">
-                        <div className="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="font-medium text-sm">{deadline.title}</h4>
-                          <p className="text-xs text-muted-foreground">{deadline.course}</p>
-                          <p className="text-xs text-accent font-medium">{deadline.date}</p>
-                        </div>
+                    {progressLoading ? (
+                      <div className="flex items-center justify-center py-4">
+                        <div className="w-6 h-6 bg-gradient-to-r from-primary to-accent rounded-xl animate-pulse"></div>
                       </div>
-                    ))}
+                    ) : progressData.recentCourses.length > 0 ? (
+                      <div className="text-center py-4">
+                        <Calendar className="w-8 h-8 mx-auto text-muted-foreground mb-2" />
+                        <p className="text-sm text-muted-foreground">No upcoming deadlines</p>
+                        <p className="text-xs text-muted-foreground">Complete lessons to unlock quizzes and assignments!</p>
+                      </div>
+                    ) : (
+                      <div className="text-center py-4">
+                        <Calendar className="w-8 h-8 mx-auto text-muted-foreground mb-2" />
+                        <p className="text-sm text-muted-foreground">Enroll in courses to see deadlines</p>
+                      </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>
@@ -244,21 +246,29 @@ export default function Dashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-3">
-                    <div className="flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-secondary/10 to-secondary/5">
-                      <Trophy className="w-6 h-6 text-secondary" />
-                      <div>
-                        <p className="font-medium text-sm">Course Completed</p>
-                        <p className="text-xs text-muted-foreground">React Fundamentals</p>
+                    {progressLoading ? (
+                      <div className="flex items-center justify-center py-4">
+                        <div className="w-6 h-6 bg-gradient-to-r from-primary to-accent rounded-xl animate-pulse"></div>
                       </div>
-                    </div>
-                    
-                    <div className="flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-accent/10 to-accent/5">
-                      <Star className="w-6 h-6 text-accent" />
-                      <div>
-                        <p className="font-medium text-sm">7-Day Streak</p>
-                        <p className="text-xs text-muted-foreground">Keep it up!</p>
+                    ) : progressData.achievements.length > 0 ? (
+                      progressData.achievements.slice(0, 2).map((achievement) => (
+                        <div key={achievement.id} className="flex items-center space-x-3 p-3 rounded-lg bg-gradient-to-r from-yellow-100 to-yellow-50 dark:from-yellow-900/20 dark:to-yellow-800/10">
+                          <span className="text-xl">{achievement.icon}</span>
+                          <div>
+                            <p className="font-medium text-sm">{achievement.title}</p>
+                            <p className="text-xs text-muted-foreground">
+                              Earned {achievement.earnedAt.toLocaleDateString()}
+                            </p>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="text-center py-4">
+                        <Trophy className="w-8 h-8 mx-auto text-muted-foreground mb-2" />
+                        <p className="text-sm text-muted-foreground">No achievements yet</p>
+                        <p className="text-xs text-muted-foreground">Complete courses to earn achievements!</p>
                       </div>
-                    </div>
+                    )}
                   </div>
                 </CardContent>
               </Card>

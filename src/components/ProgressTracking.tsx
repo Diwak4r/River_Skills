@@ -1,110 +1,50 @@
 
-import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { TrendingUp, Target, Calendar, Award, BookOpen, Clock, CheckCircle, Trophy } from 'lucide-react';
-
-interface LearningProgress {
-  coursesCompleted: number;
-  totalCoursesStarted: number;
-  hoursLearned: number;
-  streak: number;
-  skillsLearned: string[];
-  certificates: number;
-  lastActivity: Date;
-  weeklyGoal: number;
-  weeklyProgress: number;
-}
-
-interface Achievement {
-  id: string;
-  title: string;
-  description: string;
-  icon: string;
-  unlockedDate?: Date;
-  progress?: number;
-  target?: number;
-}
-
-const achievements: Achievement[] = [
-  {
-    id: '1',
-    title: 'First Steps',
-    description: 'Complete your first course',
-    icon: '🎯',
-    progress: 1,
-    target: 1
-  },
-  {
-    id: '2',
-    title: 'Learning Streak',
-    description: 'Learn for 7 days in a row',
-    icon: '🔥',
-    progress: 3,
-    target: 7
-  },
-  {
-    id: '3',
-    title: 'Course Collector',
-    description: 'Complete 10 courses',
-    icon: '📚',
-    progress: 2,
-    target: 10
-  },
-  {
-    id: '4',
-    title: 'Time Master',
-    description: 'Log 50 hours of learning',
-    icon: '⏰',
-    progress: 15,
-    target: 50
-  },
-  {
-    id: '5',
-    title: 'Skill Builder',
-    description: 'Learn 5 different skills',
-    icon: '🛠️',
-    progress: 3,
-    target: 5
-  },
-  {
-    id: '6',
-    title: 'Certificate Collector',
-    description: 'Earn 5 certificates',
-    icon: '🏆',
-    progress: 2,
-    target: 5
-  }
-];
+import { useUserProgress } from '@/hooks/useUserProgress';
+import { useAuth } from '@/hooks/useAuth';
 
 export default function ProgressTracking() {
-  const [progress, setProgress] = useState<LearningProgress>({
-    coursesCompleted: 2,
-    totalCoursesStarted: 5,
-    hoursLearned: 15.5,
-    streak: 3,
-    skillsLearned: ['React', 'JavaScript', 'Node.js'],
-    certificates: 2,
-    lastActivity: new Date(),
-    weeklyGoal: 10,
-    weeklyProgress: 6.5
-  });
+  const { user } = useAuth();
+  const { progressData, loading, error, updateWeeklyGoal } = useUserProgress();
 
-  const [userAchievements, setUserAchievements] = useState<Achievement[]>(achievements);
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="space-y-4 text-center">
+          <div className="w-12 h-12 mx-auto bg-gradient-to-r from-primary to-accent rounded-xl animate-pulse"></div>
+          <p className="text-muted-foreground">Loading your progress...</p>
+        </div>
+      </div>
+    );
+  }
 
-  const completionRate = Math.round((progress.coursesCompleted / progress.totalCoursesStarted) * 100);
-  const weeklyProgressPercent = Math.round((progress.weeklyProgress / progress.weeklyGoal) * 100);
+  if (error) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <div className="text-center">
+          <p className="text-destructive mb-4">Failed to load progress: {error}</p>
+          <Button onClick={() => window.location.reload()}>Retry</Button>
+        </div>
+      </div>
+    );
+  }
 
-  const updateWeeklyGoal = (newGoal: number) => {
-    setProgress(prev => ({ ...prev, weeklyGoal: newGoal }));
-  };
+  if (!user) {
+    return (
+      <div className="text-center py-12">
+        <p className="text-muted-foreground">Please log in to view your progress.</p>
+      </div>
+    );
+  }
 
-  const getAchievementStatus = (achievement: Achievement) => {
-    if (!achievement.progress || !achievement.target) return 'locked';
-    return achievement.progress >= achievement.target ? 'unlocked' : 'in-progress';
-  };
+  const completionRate = progressData.totalCoursesStarted > 0 
+    ? Math.round((progressData.coursesCompleted / progressData.totalCoursesStarted) * 100) 
+    : 0;
+  const weeklyProgressPercent = Math.round((progressData.weeklyProgress / progressData.weeklyGoal) * 100);
 
   return (
     <div className="space-y-8">
@@ -122,8 +62,8 @@ export default function ProgressTracking() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-blue-100 text-sm">Courses Completed</p>
-                <p className="text-3xl font-bold">{progress.coursesCompleted}</p>
-                <p className="text-blue-100 text-sm">of {progress.totalCoursesStarted} started</p>
+                <p className="text-3xl font-bold">{progressData.coursesCompleted}</p>
+                <p className="text-blue-100 text-sm">of {progressData.totalCoursesStarted} started</p>
               </div>
               <BookOpen className="w-12 h-12 text-blue-200" />
             </div>
@@ -135,7 +75,7 @@ export default function ProgressTracking() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-green-100 text-sm">Hours Learned</p>
-                <p className="text-3xl font-bold">{progress.hoursLearned}</p>
+                <p className="text-3xl font-bold">{progressData.hoursLearned}</p>
                 <p className="text-green-100 text-sm">total time</p>
               </div>
               <Clock className="w-12 h-12 text-green-200" />
@@ -148,7 +88,7 @@ export default function ProgressTracking() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-orange-100 text-sm">Learning Streak</p>
-                <p className="text-3xl font-bold">{progress.streak}</p>
+                <p className="text-3xl font-bold">{progressData.streak}</p>
                 <p className="text-orange-100 text-sm">days in a row</p>
               </div>
               <TrendingUp className="w-12 h-12 text-orange-200" />
@@ -161,7 +101,7 @@ export default function ProgressTracking() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-purple-100 text-sm">Certificates</p>
-                <p className="text-3xl font-bold">{progress.certificates}</p>
+                <p className="text-3xl font-bold">{progressData.certificates}</p>
                 <p className="text-purple-100 text-sm">earned</p>
               </div>
               <Award className="w-12 h-12 text-purple-200" />
@@ -187,7 +127,10 @@ export default function ProgressTracking() {
             </div>
             <Progress value={completionRate} className="h-3" />
             <p className="text-sm text-gray-500">
-              You've completed {progress.coursesCompleted} out of {progress.totalCoursesStarted} courses
+              {progressData.totalCoursesStarted > 0 
+                ? `You've completed ${progressData.coursesCompleted} out of ${progressData.totalCoursesStarted} courses`
+                : "Start your first course to track progress!"
+              }
             </p>
           </CardContent>
         </Card>
@@ -204,7 +147,7 @@ export default function ProgressTracking() {
             <div className="flex justify-between items-center">
               <span className="text-gray-600">This Week</span>
               <span className="font-bold text-2xl text-green-600">
-                {progress.weeklyProgress}h / {progress.weeklyGoal}h
+                {progressData.weeklyProgress}h / {progressData.weeklyGoal}h
               </span>
             </div>
             <Progress value={weeklyProgressPercent} className="h-3" />
@@ -212,7 +155,7 @@ export default function ProgressTracking() {
               {[5, 10, 15, 20].map((hours) => (
                 <Button
                   key={hours}
-                  variant={progress.weeklyGoal === hours ? "default" : "outline"}
+                  variant={progressData.weeklyGoal === hours ? "default" : "outline"}
                   size="sm"
                   onClick={() => updateWeeklyGoal(hours)}
                 >
@@ -234,15 +177,21 @@ export default function ProgressTracking() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
-            {progress.skillsLearned.map((skill, index) => (
-              <Badge key={index} className="bg-purple-100 text-purple-700 px-3 py-1">
-                {skill}
-              </Badge>
-            ))}
+            {progressData.skillsLearned.length > 0 ? (
+              progressData.skillsLearned.map((skill, index) => (
+                <Badge key={index} className="bg-purple-100 text-purple-700 px-3 py-1">
+                  {skill}
+                </Badge>
+              ))
+            ) : (
+              <p className="text-muted-foreground text-sm">Complete courses to unlock skills!</p>
+            )}
           </div>
-          <p className="text-sm text-gray-500 mt-4">
-            You've learned {progress.skillsLearned.length} skills so far. Keep going!
-          </p>
+          {progressData.skillsLearned.length > 0 && (
+            <p className="text-sm text-gray-500 mt-4">
+              You've learned {progressData.skillsLearned.length} skills so far. Keep going!
+            </p>
+          )}
         </CardContent>
       </Card>
 
@@ -256,18 +205,11 @@ export default function ProgressTracking() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {userAchievements.map((achievement) => {
-              const status = getAchievementStatus(achievement);
-              return (
+            {progressData.achievements.length > 0 ? (
+              progressData.achievements.map((achievement) => (
                 <div
                   key={achievement.id}
-                  className={`p-4 rounded-lg border-2 transition-all ${
-                    status === 'unlocked'
-                      ? 'border-yellow-300 bg-yellow-50'
-                      : status === 'in-progress'
-                      ? 'border-blue-300 bg-blue-50'
-                      : 'border-gray-200 bg-gray-50 opacity-60'
-                  }`}
+                  className="p-4 rounded-lg border-2 border-yellow-300 bg-yellow-50 transition-all"
                 >
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-2xl">{achievement.icon}</span>
@@ -277,30 +219,21 @@ export default function ProgressTracking() {
                     </div>
                   </div>
                   
-                  {achievement.progress !== undefined && achievement.target && (
-                    <div className="mt-3">
-                      <div className="flex justify-between text-sm mb-1">
-                        <span className="text-gray-600">Progress</span>
-                        <span className="font-medium">
-                          {achievement.progress}/{achievement.target}
-                        </span>
-                      </div>
-                      <Progress 
-                        value={(achievement.progress / achievement.target) * 100} 
-                        className="h-2"
-                      />
-                    </div>
-                  )}
-                  
-                  {status === 'unlocked' && (
-                    <Badge className="mt-2 bg-yellow-500 text-white">
-                      <Trophy className="w-3 h-3 mr-1" />
-                      Unlocked!
-                    </Badge>
-                  )}
+                  <Badge className="mt-2 bg-yellow-500 text-white">
+                    <Trophy className="w-3 h-3 mr-1" />
+                    Earned on {achievement.earnedAt.toLocaleDateString()}
+                  </Badge>
                 </div>
-              );
-            })}
+              ))
+            ) : (
+              <div className="col-span-full text-center py-8">
+                <Trophy className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
+                <p className="text-muted-foreground text-lg mb-2">No achievements yet</p>
+                <p className="text-sm text-muted-foreground">
+                  Complete courses and maintain learning streaks to earn achievements!
+                </p>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
