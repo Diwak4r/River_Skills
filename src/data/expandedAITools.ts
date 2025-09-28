@@ -13,6 +13,67 @@ export interface AITool {
 }
 
 export const aiTools: AITool[] = [
+  // New 2025 AI Tools & Agents
+  {
+    id: 101,
+    name: "Asana AI Teammates",
+    description: "AI-powered teammates that collaborate with you on project management, task automation, and team coordination.",
+    category: "Productivity & Automation",
+    image: "/api/placeholder/300/200",
+    url: "https://asana.com/ai",
+    pricing: "Premium",
+    features: ["Task Automation", "Project Planning", "Team Collaboration", "Smart Scheduling", "Progress Tracking"],
+    isFeatured: true,
+    isNew: true
+  },
+  {
+    id: 102, 
+    name: "Microsoft 365 Copilot Agents",
+    description: "AI agents integrated into Microsoft 365 that help with document creation, data analysis, and workflow automation.",
+    category: "Productivity & Automation",
+    image: "/api/placeholder/300/200",
+    url: "https://www.microsoft.com/microsoft-365/copilot",
+    pricing: "Premium", 
+    features: ["Document Generation", "Data Analysis", "Meeting Summaries", "Email Management", "Workflow Automation"],
+    isFeatured: true,
+    isNew: true
+  },
+  {
+    id: 103,
+    name: "Cursor AI Code Editor",
+    description: "Advanced AI-powered code editor with intelligent code completion, debugging, and pair programming capabilities.",
+    category: "Development & Code",
+    image: "/api/placeholder/300/200", 
+    url: "https://cursor.sh",
+    pricing: "Free/Premium",
+    features: ["AI Code Completion", "Smart Debugging", "Code Refactoring", "Multi-language Support", "Git Integration"],
+    isFeatured: true,
+    isNew: true
+  },
+  {
+    id: 104,
+    name: "Replit Agent",
+    description: "AI agent that helps with coding, debugging, and deploying applications directly in your browser environment.",
+    category: "Development & Code", 
+    image: "/api/placeholder/300/200",
+    url: "https://replit.com/agent",
+    pricing: "Free/Premium",
+    features: ["Code Generation", "Bug Fixing", "Deployment", "Database Setup", "Real-time Collaboration"],
+    isFeatured: false,
+    isNew: true
+  },
+  {
+    id: 105,
+    name: "Notion AI Agents",
+    description: "Intelligent AI agents within Notion for content creation, data organization, and workflow management.",
+    category: "Productivity & Automation",
+    image: "/api/placeholder/300/200",
+    url: "https://notion.so/ai", 
+    pricing: "Premium",
+    features: ["Content Creation", "Data Organization", "Template Generation", "Smart Search", "Workflow Automation"],
+    isFeatured: false,
+    isNew: true
+  },
   // Development Tools
   {
     id: 1,

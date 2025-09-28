@@ -1,7 +1,10 @@
 import ModernHeader from '@/components/layout/ModernHeader';
 import HeroSection from '@/components/home/HeroSection';
 import FeaturedCourses from '@/components/home/FeaturedCourses';
+import TestAuth from '@/components/TestAuth';
 import { useAuth } from '@/hooks/useAuth';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 export default function RiverSkills20Home() {
   const { loading } = useAuth();
@@ -27,10 +30,11 @@ export default function RiverSkills20Home() {
       {/* Featured Courses */}
       <FeaturedCourses />
       
-      {/* TODO: Add more sections */}
-      {/* AI Tools Showcase */}
-      {/* Success Stories */}
-      {/* Modern Footer */}
+      {/* Auth Test Section - Mobile Only */}
+      <div className="md:hidden p-4 space-y-3 max-w-md mx-auto">
+        <h3 className="text-lg font-semibold text-center">Test Authentication</h3>
+        <TestAuth />
+      </div>
     </div>
   );
 }

@@ -6,75 +6,75 @@
 
 @layer base {
   :root {
-    /* River Skills 2.0 Modern Color System */
-    --background: 0 0% 100%;
-    --foreground: 218 25% 15%;
+    /* River Skills 2.0 Warm & Lively Color System */
+    --background: 35 100% 98%; /* Warm white */
+    --foreground: 15 25% 20%; /* Warm dark brown */
 
-    --card: 0 0% 100%;
-    --card-foreground: 218 25% 15%;
+    --card: 35 100% 98%;
+    --card-foreground: 15 25% 20%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 218 25% 15%;
+    --popover: 35 100% 98%;
+    --popover-foreground: 15 25% 20%;
 
-    /* Primary Blues - Modern & Professional */
-    --primary: 217 91% 60%; /* #3b82f6 */
-    --primary-50: 214 100% 97%;
-    --primary-100: 214 95% 93%;
-    --primary-500: 217 91% 60%;
-    --primary-600: 221 83% 53%;
-    --primary-700: 224 76% 48%;
+    /* Primary Warm Orange - Energy & Innovation */
+    --primary: 25 95% 53%; /* Vibrant orange */
+    --primary-50: 33 100% 96%;
+    --primary-100: 32 100% 91%;
+    --primary-500: 25 95% 53%;
+    --primary-600: 20 91% 48%;
+    --primary-700: 17 88% 40%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary Green - Success & Growth */
-    --secondary: 142 76% 36%; /* #16a34a */
-    --secondary-50: 138 76% 97%;
-    --secondary-500: 142 69% 58%;
-    --secondary-600: 142 76% 36%;
+    /* Secondary Coral - Warmth & Growth */
+    --secondary: 11 83% 61%; /* Warm coral */
+    --secondary-50: 13 100% 96%;
+    --secondary-500: 11 83% 61%;
+    --secondary-600: 8 77% 53%;
     --secondary-foreground: 0 0% 100%;
 
-    /* Accent Purple - Innovation & AI */
-    --accent: 259 94% 51%; /* #8b5cf6 */
-    --accent-500: 259 94% 51%;
-    --accent-600: 262 83% 58%;
-    --accent-foreground: 0 0% 100%;
+    /* Accent Warm Yellow - Creativity & Joy */
+    --accent: 45 93% 58%; /* Golden yellow */
+    --accent-500: 45 93% 58%;
+    --accent-600: 42 87% 55%;
+    --accent-foreground: 15 25% 20%;
 
-    --muted: 220 14% 96%;
-    --muted-foreground: 215 16% 47%;
+    --muted: 33 30% 94%; /* Warm muted */
+    --muted-foreground: 20 20% 55%; /* Warm muted text */
 
-    /* Semantic Colors */
-    --success: 142 76% 36%;
-    --warning: 38 92% 50%;
-    --error: 0 84% 60%;
-    --info: 199 89% 48%;
+    /* Semantic Colors - Warm Variants */
+    --success: 120 60% 50%; /* Warm green */
+    --warning: 35 91% 62%; /* Warm amber */
+    --error: 0 75% 60%; /* Warm red */
+    --info: 200 80% 55%; /* Warm blue */
 
-    --destructive: 0 84% 60%;
+    --destructive: 0 75% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 217 91% 60%;
+    --border: 33 40% 88%; /* Warm border */
+    --input: 33 40% 88%; /* Warm input */
+    --ring: 25 95% 53%; /* Primary orange ring */
 
     --radius: 0.75rem;
 
-    /* Sidebar */
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 262 83% 58%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Sidebar - Warm Theme */
+    --sidebar-background: 35 100% 97%; /* Warm sidebar background */
+    --sidebar-foreground: 15 25% 25%; /* Warm text */
+    --sidebar-primary: 25 95% 53%; /* Primary orange */
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 33 50% 92%; /* Warm accent */
+    --sidebar-accent-foreground: 15 25% 30%;
+    --sidebar-border: 33 40% 88%; /* Warm border */
+    --sidebar-ring: 25 95% 53%;
 
     /* Fonts */
     --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     --font-heading: "Playfair Display", Georgia, serif;
 
-    /* Modern Gradients & Effects */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-500)), hsl(var(--accent-500)));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary-500)), hsl(var(--primary-500)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary-50)) 0%, hsl(0 0% 100%) 50%, hsl(var(--secondary-50)) 100%);
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(220 14% 98%) 100%);
+    /* Warm Modern Gradients & Effects */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-500)), hsl(var(--secondary-500)));
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--accent-500)), hsl(var(--primary-500)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary-50)) 0%, hsl(35 100% 98%) 50%, hsl(var(--accent-500) / 0.1) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(35 100% 98%) 0%, hsl(33 50% 96%) 100%);
     
     /* Advanced Shadows */
     --shadow-sm: 0 1px 2px 0 hsl(218 25% 15% / 0.05);
@@ -86,42 +86,45 @@
   }
 
   .dark {
-    --background: 234 12% 8%;
-    --foreground: 210 40% 98%;
+    /* Dark mode with warm accents */
+    --background: 20 14% 8%; /* Warm dark background */
+    --foreground: 35 20% 96%; /* Warm light text */
 
-    --card: 234 12% 10%;
-    --card-foreground: 210 40% 98%;
+    --card: 20 14% 10%; /* Warm dark card */
+    --card-foreground: 35 20% 96%;
 
-    --popover: 234 12% 10%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 20 14% 10%;
+    --popover-foreground: 35 20% 96%;
 
-    --primary: 262 83% 70%;
-    --primary-foreground: 234 12% 12%;
+    /* Dark mode warm colors */
+    --primary: 25 85% 65%; /* Lighter warm orange for dark mode */
+    --primary-foreground: 20 14% 12%;
 
-    --secondary: 234 10% 16%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 20 10% 16%; /* Warm dark secondary */
+    --secondary-foreground: 35 20% 96%;
 
-    --muted: 234 10% 16%;
-    --muted-foreground: 215 20% 74%;
+    --muted: 20 10% 16%; /* Warm muted */
+    --muted-foreground: 30 15% 70%; /* Warm muted text */
 
-    --accent: 200 94% 52%;
-    --accent-foreground: 234 12% 12%;
+    --accent: 45 85% 65%; /* Warm yellow accent for dark */
+    --accent-foreground: 20 14% 12%;
 
-    --destructive: 0 62.8% 40.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 50.6%; /* Slightly warmer red */
+    --destructive-foreground: 35 20% 96%;
 
-    --border: 234 10% 18%;
-    --input: 234 10% 18%;
-    --ring: 262 83% 70%;
+    --border: 20 10% 18%; /* Warm dark border */
+    --input: 20 10% 18%; /* Warm dark input */
+    --ring: 25 85% 65%; /* Warm ring */
 
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 262 83% 70%;
+    /* Dark sidebar with warm tones */
+    --sidebar-background: 20 14% 10%;
+    --sidebar-foreground: 35 20% 96%;
+    --sidebar-primary: 25 85% 65%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 20 10% 16%;
+    --sidebar-accent-foreground: 35 20% 96%;
+    --sidebar-border: 20 10% 16%;
+    --sidebar-ring: 25 85% 65%;
   }
 }
 
