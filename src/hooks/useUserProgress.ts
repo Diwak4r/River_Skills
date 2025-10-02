@@ -63,7 +63,7 @@ export function useUserProgress() {
         .from('enrollments')
         .select(`
           *,
-          courses (
+          courses!fk_enrollments_course (
             id,
             title,
             category,

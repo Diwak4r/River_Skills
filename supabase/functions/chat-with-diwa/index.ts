@@ -1,6 +1,7 @@
 
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.50.0';
 import { corsHeaders } from './constants.ts';
 import { checkRateLimit } from './rate-limit.ts';
 import { validateMessage, sanitizeInput } from './validation.ts';
@@ -31,11 +32,36 @@ serve(async (req) => {
       });
     }
 
-    // Skip authentication for now - use a default user ID for rate limiting
-    const defaultUserId = 'anonymous-user';
+    // Authenticate user - JWT verification enabled in config.toml
+    const authHeader = req.headers.get('Authorization');
+    if (!authHeader) {
+      return new Response(JSON.stringify({ 
+        error: 'Authentication required. Please sign in to use the chat feature.' 
+      }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
 
-    // Rate limiting check
-    if (!checkRateLimit(defaultUserId)) {
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    const token = authHeader.replace('Bearer ', '');
+    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+
+    if (authError || !user) {
+      console.log('Auth error:', authError);
+      return new Response(JSON.stringify({ 
+        error: 'Invalid or expired session. Please sign in again.' 
+      }), {
+        status: 401,
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      });
+    }
+
+    console.log('User authenticated:', user.email);
+
+    // Rate limiting check using user ID
+    if (!checkRateLimit(user.id)) {
+      console.log('Rate limit exceeded for user:', user.id);
       return new Response(JSON.stringify({ 
         error: 'Rate limit exceeded. Please try again later.' 
       }), {
@@ -47,7 +73,7 @@ serve(async (req) => {
     const requestBody: ChatRequest = await req.json();
     const { message, mode = 'lite', isModeSwitching = false } = requestBody;
 
-    console.log('Request data:', { message, mode, isModeSwitching });
+    console.log('Request data:', { userId: user.id, message, mode, isModeSwitching });
 
     // Handle mode switching
     if (isModeSwitching) {

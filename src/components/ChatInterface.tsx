@@ -58,6 +58,25 @@ export default function ChatInterface() {
     setIsLoading(true);
 
     try {
+      // Get the current session to include auth token
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        toast({
+          title: "Authentication Required",
+          description: "Please sign in to use the chat feature.",
+          variant: "destructive",
+        });
+        setIsLoading(false);
+        setMessages(prev => [...prev, {
+          id: (Date.now() + 1).toString(),
+          content: "⚠️ Please sign in to use the chat feature. You can still explore our 200+ courses and resources!",
+          sender: 'bot',
+          timestamp: new Date(),
+        }]);
+        return;
+      }
+
       const contextualMessage = `User message: ${messageToSend}
 
 Context about RiverSkills and its creator:
@@ -71,12 +90,15 @@ Context about RiverSkills and its creator:
 
 Please respond as a helpful learning assistant who knows about RiverSkills and can help users find courses, resources, and learning paths.`;
 
-      // Call the edge function using Supabase client
+      // Call the edge function using Supabase client with auth token
       const { data, error } = await supabase.functions.invoke('chat-with-diwa', {
         body: { 
           message: contextualMessage,
           mode: 'lite'
         },
+        headers: {
+          Authorization: `Bearer ${session.access_token}`
+        }
       });
 
       if (error) {
