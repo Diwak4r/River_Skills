@@ -9,16 +9,10 @@ import {
   Star, 
   ArrowRight,
   Sparkles,
-  TrendingUp,
   Award
 } from 'lucide-react';
-
-const stats = [
-  { label: 'Active Learners', value: '50,000+', icon: Users },
-  { label: 'Courses Available', value: '200+', icon: BookOpen },
-  { label: 'Success Rate', value: '95%', icon: TrendingUp },
-  { label: 'Certificates Earned', value: '15,000+', icon: Award },
-];
+import StatsGrid from './StatsGrid';
+import BridgeCourses from './BridgeCourses';
 
 const typingWords = [
   'Master New Skills',
@@ -61,10 +55,10 @@ export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary-50 via-background to-secondary-50">
       {/* Animated Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full mix-blend-multiply animate-float"></div>
-        <div className="absolute top-40 right-10 w-96 h-96 bg-accent/10 rounded-full mix-blend-multiply animate-float-delayed"></div>
-        <div className="absolute -bottom-20 left-1/3 w-80 h-80 bg-secondary/10 rounded-full mix-blend-multiply animate-float"></div>
+      <div className="absolute inset-0" aria-hidden="true">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full mix-blend-multiply animate-float" />
+        <div className="absolute top-40 right-10 w-96 h-96 bg-accent/10 rounded-full mix-blend-multiply animate-float-delayed" />
+        <div className="absolute -bottom-20 left-1/3 w-80 h-80 bg-secondary/10 rounded-full mix-blend-multiply animate-float" />
       </div>
 
       <div className="relative z-10 container mx-auto px-6 text-center">
@@ -85,14 +79,18 @@ export default function HeroSection() {
             </span>
           </h1>
           
-          <div className="text-xl md:text-2xl text-muted-foreground animate-fade-in-up" 
-               style={{ animationDelay: '0.4s' }}>
+          <p 
+            className="text-xl md:text-2xl text-muted-foreground animate-fade-in-up" 
+            style={{ animationDelay: '0.4s' }}
+            aria-live="polite"
+            aria-atomic="true"
+          >
             <span>Empowering you to </span>
             <span className="bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-semibold min-h-[1.5em] inline-block">
               {displayText}
-              <span className="animate-pulse">|</span>
+              <span className="animate-pulse" aria-hidden="true">|</span>
             </span>
-          </div>
+          </p>
 
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed animate-fade-in-up" 
              style={{ animationDelay: '0.6s' }}>
@@ -130,30 +128,10 @@ export default function HeroSection() {
         </div>
 
         {/* Stats Section */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-4xl mx-auto animate-fade-in-up" 
-             style={{ animationDelay: '1s' }}>
-          {stats.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <div 
-                key={stat.label} 
-                className="text-center group hover:scale-105 transition-transform duration-300"
-              >
-                <div className="bg-gradient-to-br from-card to-muted/20 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 border border-border/50">
-                  <div className="w-12 h-12 mx-auto mb-3 bg-gradient-to-r from-primary to-accent rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                    <Icon className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="text-2xl font-bold text-foreground mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    {stat.label}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <StatsGrid />
+
+        {/* Bridge Courses Section */}
+        <BridgeCourses />
 
         {/* Featured Highlights */}
         <div className="mt-20 grid md:grid-cols-3 gap-6 max-w-5xl mx-auto animate-fade-in-up" 
@@ -210,9 +188,9 @@ export default function HeroSection() {
       </div>
 
       {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce" aria-hidden="true">
         <div className="w-6 h-10 border-2 border-muted-foreground/30 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-muted-foreground/50 rounded-full mt-2 animate-pulse"></div>
+          <div className="w-1 h-3 bg-muted-foreground/50 rounded-full mt-2 animate-pulse" />
         </div>
       </div>
     </section>

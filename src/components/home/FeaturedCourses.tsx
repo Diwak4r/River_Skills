@@ -1,11 +1,10 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ArrowRight, Filter, TrendingUp, Star } from 'lucide-react';
+import { ArrowRight, TrendingUp, BookOpen } from 'lucide-react';
 import CourseCard from '@/components/courses/CourseCard';
-import { useCourses } from '@/hooks/useCourses';
 import type { Course } from '@/types';
 
 const categories = [
@@ -98,16 +97,18 @@ const mockFeaturedCourses: Course[] = [
 
 export default function FeaturedCourses() {
   const [activeCategory, setActiveCategory] = useState('all');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   
   // In a real app, you'd use the courses from the hook
   // const { courses, loading } = useCourses({ category: activeCategory === 'all' ? undefined : activeCategory });
   const courses = mockFeaturedCourses;
   const loading = false;
 
-  const filteredCourses = activeCategory === 'all' 
-    ? courses 
-    : courses.filter(course => course.category === activeCategory);
+  // Memoize filtered courses for performance
+  const filteredCourses = useMemo(() => {
+    return activeCategory === 'all' 
+      ? courses 
+      : courses.filter(course => course.category === activeCategory);
+  }, [activeCategory, courses]);
 
   return (
     <section className="py-20 bg-gradient-to-b from-background to-muted/20">
@@ -157,7 +158,7 @@ export default function FeaturedCourses() {
               {categories.map((category) => (
                 <TabsContent key={category.id} value={category.id} className="mt-0">
                   {loading ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" role="status" aria-label="Loading courses">
                       {[...Array(6)].map((_, i) => (
                         <div key={i} className="animate-pulse">
                           <div className="bg-muted rounded-lg h-64 mb-4" />
@@ -166,7 +167,7 @@ export default function FeaturedCourses() {
                         </div>
                       ))}
                     </div>
-                  ) : (
+                  ) : filteredCourses.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {filteredCourses.slice(0, 6).map((course) => (
                         <CourseCard 
@@ -175,6 +176,14 @@ export default function FeaturedCourses() {
                           variant={course.rating > 4.8 ? 'featured' : 'default'}
                         />
                       ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-20">
+                      <BookOpen className="w-16 h-16 mx-auto text-muted-foreground mb-4" />
+                      <h3 className="text-2xl font-semibold mb-2">No courses found</h3>
+                      <p className="text-muted-foreground">
+                        We're adding new courses regularly. Check back soon!
+                      </p>
                     </div>
                   )}
 
@@ -201,10 +210,10 @@ export default function FeaturedCourses() {
         </div>
 
         {/* Stats & Social Proof */}
-        <div className="bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 rounded-2xl p-8 text-center">
+        <aside className="bg-gradient-to-r from-primary/10 via-accent/10 to-secondary/10 rounded-2xl p-8 text-center" aria-label="Platform statistics">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="space-y-2">
-              <div className="text-3xl font-bold text-primary">4.8★</div>
+              <div className="text-3xl font-bold text-primary" aria-label="4.8 stars out of 5">4.8★</div>
               <div className="text-sm text-muted-foreground">Average Rating</div>
             </div>
             <div className="space-y-2">
@@ -216,7 +225,7 @@ export default function FeaturedCourses() {
               <div className="text-sm text-muted-foreground">Happy Students</div>
             </div>
           </div>
-        </div>
+        </aside>
 
         {/* CTA Section */}
         <div className="text-center mt-16">

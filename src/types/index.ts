@@ -45,13 +45,16 @@ export interface AITool {
   id: string;
   name: string;
   description: string;
-  category: 'writing' | 'coding' | 'design' | 'research' | 'productivity';
+  category: string;
+  icon?: string;
   apiEndpoint?: string;
-  pricing: 'free' | 'premium' | 'credits';
-  features: string[];
-  examples: string[];
-  usageCount: number;
-  isActive: boolean;
+  pricing: 'free' | 'freemium' | 'premium' | 'paid' | 'credits';
+  features?: string[];
+  capabilities?: string[];
+  examples?: string[];
+  usageCount?: number;
+  isActive?: boolean;
+  url?: string;
 }
 
 export interface UserProfile {

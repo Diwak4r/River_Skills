@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { 
@@ -42,14 +42,70 @@ const languages = [
 
 export default function ModernHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDark, setIsDark] = useState(false);
-  const [currentLang, setCurrentLang] = useState('en');
+  const [isDark, setIsDark] = useState(() => {
+    // Initialize from localStorage or system preference
+    if (typeof window !== 'undefined') {
+      const stored = localStorage.getItem('theme');
+      if (stored) return stored === 'dark';
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return false;
+  });
+  const [currentLang, setCurrentLang] = useState(() => {
+    // Initialize from localStorage
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('language') || 'en';
+    }
+    return 'en';
+  });
   const location = useLocation();
   const { user, signOut } = useAuth();
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+
+  // Persist theme changes
+  useEffect(() => {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDark]);
+
+  // Persist language changes
+  useEffect(() => {
+    localStorage.setItem('language', currentLang);
+  }, [currentLang]);
+
+  // Click outside to close mobile menu
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isMenuOpen]);
+
+  // Close mobile menu on escape key
+  useEffect(() => {
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape' && isMenuOpen) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isMenuOpen]);
 
   const toggleTheme = () => {
     setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
   };
 
   const handleSignOut = async () => {
@@ -58,7 +114,7 @@ export default function ModernHeader() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8" ref={mobileMenuRef}>
         <div className="flex items-center justify-between h-16">
           {/* Logo & Brand */}
           <Link to="/" className="flex items-center space-x-3 group">
@@ -133,6 +189,7 @@ export default function ModernHeader() {
               size="sm"
               onClick={toggleTheme}
               className="w-9 h-9 p-0"
+              aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
             >
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>
@@ -173,7 +230,7 @@ export default function ModernHeader() {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem asChild>
-                    <Link to="/dashboard" className="flex items-center gap-2">
+                    <Link to="/dashboard?tab=settings" className="flex items-center gap-2">
                       <Settings className="w-4 h-4" />
                       Profile Settings
                     </Link>
@@ -202,6 +259,9 @@ export default function ModernHeader() {
               size="sm"
               className="md:hidden"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </Button>
@@ -210,8 +270,13 @@ export default function ModernHeader() {
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border animate-fade-in">
-            <nav className="flex flex-col space-y-2">
+          <nav 
+            id="mobile-navigation"
+            className="md:hidden py-4 border-t border-border animate-fade-in"
+            role="navigation"
+            aria-label="Mobile navigation"
+          >
+            <div className="flex flex-col space-y-2">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = location.pathname === item.href;
@@ -233,8 +298,8 @@ export default function ModernHeader() {
                   </Link>
                 );
               })}
-            </nav>
-          </div>
+            </div>
+          </nav>
         )}
       </div>
     </header>

@@ -156,7 +156,11 @@ export default function CourseCard({
         
         {/* Overlay Actions */}
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <Button size="sm" className="bg-white/20 backdrop-blur text-white hover:bg-white/30">
+          <Button 
+            size="sm" 
+            className="bg-white/20 backdrop-blur text-white hover:bg-white/30"
+            aria-label={`Preview ${course.title} course`}
+          >
             <Play className="w-4 h-4 mr-2" />
             Preview
           </Button>
@@ -186,6 +190,8 @@ export default function CourseCard({
             variant="secondary"
             className="w-8 h-8 p-0 bg-white/20 backdrop-blur text-white hover:bg-white/30"
             onClick={() => setIsLiked(!isLiked)}
+            aria-label={isLiked ? `Unlike ${course.title}` : `Like ${course.title}`}
+            aria-pressed={isLiked}
           >
             <Heart className={cn("w-4 h-4", isLiked && "fill-current text-red-500")} />
           </Button>
