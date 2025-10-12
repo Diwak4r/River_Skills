@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, BookOpen, GraduationCap, Lightbulb, Search, Bookmark, MessageSquare, Info } from 'lucide-react';
+import { Menu, X, BookOpen, GraduationCap, Lightbulb, Search, MessageSquare, Info } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 
 export default function Header() {
@@ -12,7 +12,6 @@ export default function Header() {
     { name: 'Courses', href: '/courses' },
     { name: 'Resources', href: '/resources' },
     { name: 'AI Tools', href: '/ai-tools' },
-    { name: 'Bookmarks', href: '/bookmarks' },
     { name: 'Chat', href: '/chat' },
     { name: 'About', href: '/about' },
   ];
@@ -38,7 +37,6 @@ export default function Header() {
               {item.name === 'Courses' && <GraduationCap className="w-4 h-4" />}
               {item.name === 'Resources' && <Lightbulb className="w-4 h-4" />}
               {item.name === 'AI Tools' && <Search className="w-4 h-4" />}
-              {item.name === 'Bookmarks' && <Bookmark className="w-4 h-4" />}
               {item.name === 'Chat' && <MessageSquare className="w-4 h-4" />}
               {item.name === 'About' && <Info className="w-4 h-4" />}
               {item.name}
