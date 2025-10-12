@@ -6,7 +6,6 @@ import { corsHeaders } from './constants.ts';
 import { checkRateLimit } from './rate-limit.ts';
 import { validateMessage, sanitizeInput } from './validation.ts';
 import { getSystemPrompt } from './prompts.ts';
-import { callOpenRouterAPI } from './openrouter-api.ts';
 import type { ChatRequest } from './types.ts';
 
 serve(async (req) => {
@@ -20,12 +19,12 @@ serve(async (req) => {
     // Initialize environment variables
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
-    const openRouterApiKey = Deno.env.get('OPENROUTER_API_KEY');
+    const lovableApiKey = Deno.env.get('LOVABLE_API_KEY');
 
-    if (!openRouterApiKey) {
-      console.error('OpenRouter API key not configured');
+    if (!lovableApiKey) {
+      console.error('Lovable AI API key not configured');
       return new Response(JSON.stringify({ 
-        error: 'AI service configuration error: OpenRouter API key not configured' 
+        error: 'AI service configuration error. Please try again later.' 
       }), {
         status: 503,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -99,19 +98,62 @@ serve(async (req) => {
 
     const sanitizedMessage = sanitizeInput(message);
     const systemPrompt = getSystemPrompt(mode);
-    const fullPrompt = `${systemPrompt}\n\nUser question: ${sanitizedMessage}`;
 
-    // Use OpenRouter API
+    // Use Lovable AI Gateway with Gemini
     let aiResponse: string | null = null;
-    let provider = 'openrouter';
+    let provider = 'gemini-2.5-flash';
 
     try {
-      aiResponse = await callOpenRouterAPI(openRouterApiKey, fullPrompt);
-      console.log('OpenRouter API response received successfully');
+      console.log('Calling Lovable AI Gateway with Gemini...');
+      
+      const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${lovableApiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'google/gemini-2.5-flash',
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: sanitizedMessage }
+          ],
+        }),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Lovable AI Gateway error:', response.status, errorText);
+        
+        if (response.status === 429) {
+          return new Response(JSON.stringify({ 
+            error: 'Rate limit exceeded. Please try again in a moment.' 
+          }), {
+            status: 429,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+        
+        if (response.status === 402) {
+          return new Response(JSON.stringify({ 
+            error: 'AI service temporarily unavailable. Please try again later.' 
+          }), {
+            status: 402,
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          });
+        }
+        
+        throw new Error(`AI Gateway error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      aiResponse = data.choices[0].message.content;
+      console.log('Lovable AI Gateway response received successfully');
+      
     } catch (err) {
-      console.error('OpenRouter provider failed:', err);
+      console.error('Lovable AI Gateway failed:', err);
       return new Response(JSON.stringify({ 
-        error: 'AI service error: OpenRouter failed' 
+        error: 'AI service temporarily unavailable. Please try again in a moment.' 
       }), {
         status: 503,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },

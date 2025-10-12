@@ -155,7 +155,7 @@ Please respond as a helpful learning assistant who knows about RiverSkills and c
             <h3 className="text-xl font-bold">Diwa AI - Intelligent Assistant</h3>
             <p className="text-blue-100 flex items-center gap-2">
               <Sparkles className="w-4 h-4" />
-              Powered by Grok AI • RiverSkills Expert • Multi-Domain Knowledge
+              Powered by Google Gemini AI • RiverSkills Expert • Multi-Domain Knowledge
             </p>
           </div>
         </div>
