@@ -118,20 +118,17 @@ export default function ModernHeader() {
         <div className="flex items-center justify-between h-16">
           {/* Logo & Brand */}
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-r from-primary to-accent rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-primary/25 transition-all duration-300">
-                <div className="w-6 h-6 bg-white rounded-md flex items-center justify-center">
-                  <div className="w-3 h-3 bg-gradient-to-br from-primary to-accent rounded-sm"></div>
-                </div>
+            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-200">
+              <div className="w-6 h-6 bg-white rounded flex items-center justify-center">
+                <div className="w-3 h-3 bg-primary rounded-sm"></div>
               </div>
-              <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-accent rounded-full animate-pulse"></div>
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-xl font-heading font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-                River Skills 2.0
+              <h1 className="text-xl font-semibold text-foreground">
+                RiverSkills
               </h1>
-              <p className="text-xs text-muted-foreground -mt-1">
-                Next-Gen Learning
+              <p className="text-xs text-muted-foreground -mt-0.5">
+                Learn. Grow. Succeed.
               </p>
             </div>
           </Link>
@@ -247,7 +244,7 @@ export default function ModernHeader() {
                 <Button variant="ghost" size="sm" asChild>
                   <Link to="/auth">Sign In</Link>
                 </Button>
-                <Button size="sm" className="bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90" asChild>
+                <Button size="sm" asChild>
                   <Link to="/auth">Get Started</Link>
                 </Button>
               </div>

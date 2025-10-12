@@ -28,11 +28,6 @@ export default {
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
-					50: '#f3f0ff',
-					100: '#e7dbff',
-					500: '#7c3aed',
-					600: '#6d28d9',
-					700: '#5b21b6',
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
@@ -71,7 +66,7 @@ export default {
 			},
 			fontFamily: {
 				sans: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
-				heading: ["Playfair Display", "Georgia", "serif"],
+				heading: ["Inter", "ui-sans-serif", "system-ui", "sans-serif"],
 			},
 			borderRadius: {
 				lg: 'var(--radius)',

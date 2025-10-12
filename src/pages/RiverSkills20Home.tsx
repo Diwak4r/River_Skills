@@ -12,17 +12,17 @@ export default function RiverSkills20Home() {
   if (loading) {
     return (
       <div 
-        className="min-h-screen bg-gradient-to-br from-primary-50 via-background to-secondary-50 flex items-center justify-center"
+        className="min-h-screen bg-background flex items-center justify-center"
         role="status"
         aria-live="polite"
         aria-label="Loading application"
       >
         <div className="space-y-4 text-center">
           <div 
-            className="w-12 h-12 mx-auto bg-gradient-to-r from-primary to-accent rounded-xl animate-pulse"
+            className="w-12 h-12 mx-auto bg-primary rounded-xl animate-pulse"
             aria-hidden="true"
           />
-          <p className="text-muted-foreground">Loading River Skills 2.0...</p>
+          <p className="text-muted-foreground">Loading RiverSkills...</p>
         </div>
       </div>
     );
