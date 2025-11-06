@@ -21,7 +21,7 @@ export type Database = {
           earned_at: string | null
           id: string
           title: string
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           badge_icon?: string | null
@@ -29,7 +29,7 @@ export type Database = {
           earned_at?: string | null
           id?: string
           title: string
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           badge_icon?: string | null
@@ -37,7 +37,7 @@ export type Database = {
           earned_at?: string | null
           id?: string
           title?: string
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -156,7 +156,7 @@ export type Database = {
           message_type: Database["public"]["Enums"]["chat_message_type"] | null
           response: string | null
           session_id: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string | null
@@ -165,7 +165,7 @@ export type Database = {
           message_type?: Database["public"]["Enums"]["chat_message_type"] | null
           response?: string | null
           session_id?: string | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string | null
@@ -174,7 +174,7 @@ export type Database = {
           message_type?: Database["public"]["Enums"]["chat_message_type"] | null
           response?: string | null
           session_id?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -206,21 +206,21 @@ export type Database = {
           id: string
           title: string | null
           updated_at: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           created_at?: string | null
           id?: string
           title?: string | null
           updated_at?: string | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           created_at?: string | null
           id?: string
           title?: string | null
           updated_at?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -239,7 +239,7 @@ export type Database = {
           id: string
           rating: number | null
           review_text: string | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           course_id?: string | null
@@ -247,7 +247,7 @@ export type Database = {
           id?: string
           rating?: number | null
           review_text?: string | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           course_id?: string | null
@@ -255,7 +255,7 @@ export type Database = {
           id?: string
           rating?: number | null
           review_text?: string | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -392,7 +392,7 @@ export type Database = {
           enrolled_at: string | null
           id: string
           progress: number | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           completed_at?: string | null
@@ -400,7 +400,7 @@ export type Database = {
           enrolled_at?: string | null
           id?: string
           progress?: number | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           completed_at?: string | null
@@ -408,7 +408,7 @@ export type Database = {
           enrolled_at?: string | null
           id?: string
           progress?: number | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -550,7 +550,7 @@ export type Database = {
           passed: boolean
           quiz_id: string | null
           score: number
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           answers: Json
@@ -559,7 +559,7 @@ export type Database = {
           passed: boolean
           quiz_id?: string | null
           score: number
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           answers?: Json
@@ -568,7 +568,7 @@ export type Database = {
           passed?: boolean
           quiz_id?: string | null
           score?: number
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
@@ -682,7 +682,7 @@ export type Database = {
           lesson_id: string | null
           score: number | null
           time_spent: number | null
-          user_id: string | null
+          user_id: string
         }
         Insert: {
           completed?: boolean | null
@@ -693,7 +693,7 @@ export type Database = {
           lesson_id?: string | null
           score?: number | null
           time_spent?: number | null
-          user_id?: string | null
+          user_id: string
         }
         Update: {
           completed?: boolean | null
@@ -704,7 +704,7 @@ export type Database = {
           lesson_id?: string | null
           score?: number | null
           time_spent?: number | null
-          user_id?: string | null
+          user_id?: string
         }
         Relationships: [
           {
