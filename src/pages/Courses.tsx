@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Header from '@/components/Header';
+import ModernHeader from '@/components/layout/ModernHeader';
 import CourseCard from '@/components/CourseCard';
 import FeaturedCoursesSection from '@/components/FeaturedCoursesSection';
 import FreeAffordableSection from '@/components/FreeAffordableSection';
@@ -854,14 +854,14 @@ export default function Courses() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <Header />
+    <div className="min-h-screen bg-background">
+      <ModernHeader />
       
       <main className="pt-20">
         {/* Hero Section */}
-        <section className="py-16 px-6">
+        <section className="py-16 px-6 bg-gradient-to-br from-primary/5 via-background to-accent/5">
           <div className="container mx-auto max-w-6xl text-center">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 pb-2">
+            <h1 className="text-5xl font-heading font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-4 pb-2">
               Learn Skills, Build Career
             </h1>
             <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
@@ -1352,17 +1352,17 @@ export default function Courses() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 px-6 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
+        <section className="py-16 px-6 bg-gradient-to-r from-primary to-accent text-white">
           <div className="container mx-auto max-w-4xl text-center">
-            <h2 className="text-3xl font-bold mb-4">Ready to Start Your Journey?</h2>
-            <p className="text-xl text-blue-100 mb-8">
+            <h2 className="text-3xl font-heading font-bold mb-4">Ready to Start Your Journey?</h2>
+            <p className="text-xl text-primary-foreground/90 mb-8">
               Join the growing community of professionals shaping Nepal's digital future.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+              <Button size="lg" className="bg-white text-primary hover:bg-white/90 hover:scale-105 transition-all duration-300">
                 Browse AI Tools
               </Button>
-              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-600">
+              <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary transition-all duration-300">
                 Join Community
               </Button>
             </div>

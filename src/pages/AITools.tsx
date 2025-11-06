@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Header from "@/components/Header";
+import ModernHeader from '@/components/layout/ModernHeader';
 import SearchBar from "@/components/SearchBar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -1480,21 +1480,21 @@ export default function AITools() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <Header />
+    <div className="min-h-screen bg-background">
+      <ModernHeader />
       <main className="pt-20">
-        <section className="py-16 px-6">
+        <section className="py-16 px-6 bg-gradient-to-br from-primary/5 via-background to-accent/5">
           <div className="container mx-auto max-w-6xl">
             <div className="text-center mb-12">
               <div className="flex items-center justify-center gap-3 mb-4">
-                <div className="p-3 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl">
+                <div className="p-3 bg-gradient-to-br from-primary to-accent rounded-xl shadow-lg">
                   <Sparkles className="h-8 w-8 text-white" />
                 </div>
-                <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent animate-fade-in-up">
+                <h1 className="text-5xl font-heading font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent animate-fade-in-up">
                   AI Tools Directory
                 </h1>
               </div>
-              <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+              <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                 Discover the best AI tools for your needs. From autonomous agents to image creation, find the perfect AI assistant for any task.
               </p>
               

@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import Header from "@/components/Header";
+import ModernHeader from '@/components/layout/ModernHeader';
 import SearchBar from "@/components/SearchBar";
 import EnhancedResourceCard from "@/components/EnhancedResourceCard";
 import { BookOpen, Code, Wrench, RefreshCw, Play, Smartphone, Globe, Headphones, BookMarked, Filter, TrendingUp } from "lucide-react";
@@ -61,32 +61,32 @@ export default function Resources() {
   const filteredCount = Object.values(groupedResources).reduce((sum, items) => sum + items.length, 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <Header />
+    <div className="min-h-screen bg-background">
+      <ModernHeader />
       <main className="pt-20">
         {/* Header Section */}
-        <section className="py-16 px-6 relative overflow-hidden">
+        <section className="py-16 px-6 relative overflow-hidden bg-gradient-to-br from-primary/5 via-background to-accent/5">
           <div className="container mx-auto max-w-4xl text-center">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full mb-6">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-full mb-6 shadow-lg">
               <BookOpen className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4 animate-fade-in-up pb-2">
+            <h1 className="text-5xl font-heading font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-4 animate-fade-in-up pb-2">
               Learning Resources
             </h1>
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+            <p className="text-xl text-muted-foreground mb-8 max-w-3xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               Discover curated learning resources to boost your programming skills.
             </p>
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-              <Card className="bg-white/80 backdrop-blur-sm">
+              <Card className="bg-card/80 backdrop-blur-sm border-border">
                 <CardContent className="p-6 text-center">
-                  <TrendingUp className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                  <div className="text-2xl font-bold text-gray-800">{totalResources}</div>
-                  <div className="text-gray-600">Total Resources</div>
+                  <TrendingUp className="w-8 h-8 text-primary mx-auto mb-2" />
+                  <div className="text-2xl font-bold">{totalResources}</div>
+                  <div className="text-muted-foreground">Total Resources</div>
                 </CardContent>
               </Card>
-              <Card className="bg-white/80 backdrop-blur-sm">
+              <Card className="bg-card/80 backdrop-blur-sm border-border">
                 <CardContent className="p-6 text-center">
                   <Globe className="w-8 h-8 text-green-600 mx-auto mb-2" />
                   <div className="text-2xl font-bold text-gray-800">{resourceTypes.length - 1}</div>
