@@ -1,0 +1,80 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* LIGHT MODE (Default) */
+  --background: #FFFFFF;
+  --surface: #F4F4F5;
+  /* Zinc 100 */
+  --surface-hover: #E4E4E7;
+  /* Zinc 200 */
+  --border: #E4E4E7;
+  /* Zinc 200 */
+
+  --primary: #09090B;
+  /* Zinc 950 (Black) */
+  --primary-foreground: #FFFFFF;
+
+  --text-primary: #09090B;
+  --text-secondary: #52525B;
+  /* Zinc 600 */
+}
+
+.dark {
+  /* DARK MODE */
+  --background: #050505;
+  --surface: #111111;
+  --surface-hover: #1A1A1A;
+  --border: #27272A;
+  /* Zinc 800 */
+
+  --primary: #FFFFFF;
+  --primary-foreground: #000000;
+
+  --text-primary: #FFFFFF;
+  --text-secondary: #A1A1AA;
+  /* Zinc 400 */
+}
+
+@layer base {
+  body {
+    @apply bg-background text-text-primary font-sans antialiased overflow-x-hidden transition-colors duration-300;
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-surface border border-border rounded-xl transition-all duration-200;
+  }
+
+  .glass-hover {
+    @apply hover:border-text-secondary transition-all duration-200;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-border rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-text-secondary;
+}

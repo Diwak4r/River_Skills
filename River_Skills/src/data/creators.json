@@ -1,0 +1,238 @@
+[
+    {
+        "id": 1,
+        "name": "Striver",
+        "username": "@takeUforward",
+        "specialty": [
+            "DSA",
+            "System Design",
+            "Interview Prep"
+        ],
+        "language": [
+            "English",
+            "Hindi"
+        ],
+        "platforms": {
+            "youtube": "https://www.youtube.com/@takeUforward",
+            "twitter": "https://twitter.com/striver_79",
+            "github": "https://github.com/striver79"
+        },
+        "description": "Best DSA teacher in India. Every SDE knows Striver. Ex-Google, Ex-Amazon.",
+        "reason": "Every Indian coder's go-to. Comprehensive DSA sheets and interview prep.",
+        "featured_content": [
+            {
+                "title": "Complete DSA Course",
+                "url": "https://www.youtube.com/playlist?list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz",
+                "views": "10M+",
+                "description": "A-Z DSA from scratch"
+            }
+        ],
+        "image": "https://yt3.googleusercontent.com/ytc/AIdro_k5g-iv_y2_k5_k5_k5_k5_k5_k5_k5_k5_k5=s176-c-k-c0x00ffffff-no-rj"
+    },
+    {
+        "id": 2,
+        "name": "Harkirat Singh",
+        "username": "@harkiratssingh",
+        "specialty": [
+            "Web Dev",
+            "Full-Stack",
+            "Startups"
+        ],
+        "language": [
+            "English",
+            "Hindi"
+        ],
+        "platforms": {
+            "youtube": "https://www.youtube.com/@harkirat1",
+            "twitter": "https://twitter.com/kirat_tw",
+            "github": "https://github.com/hkirat"
+        },
+        "description": "Full-stack developer and startup founder. Teaches modern web dev with a focus on building real products.",
+        "reason": "Practical, project-based learning. Covers the latest tech stacks like Next.js, Docker, and Kubernetes.",
+        "featured_content": [
+            {
+                "title": "Web Dev Cohort",
+                "url": "https://100xdevs.com/",
+                "views": "100k+",
+                "description": "Complete Full Stack Bootcamp"
+            }
+        ],
+        "image": "https://yt3.googleusercontent.com/MeY_fGNrjVLV0PVOBN7dRWzMBS0y41YGm55LOaJ02cXRjeyoOdjUEatdcD1s7bI8cu28ny2a=s176-c-k-c0x00ffffff-no-rj"
+    },
+    {
+        "id": 3,
+        "name": "Code With Harry",
+        "username": "@CodeWithHarry",
+        "specialty": [
+            "Python",
+            "Web Dev",
+            "Hindi content"
+        ],
+        "language": [
+            "Hindi"
+        ],
+        "platforms": {
+            "youtube": "https://www.youtube.com/@CodeWithHarry",
+            "twitter": "https://twitter.com/CodeWithHarry",
+            "github": "https://github.com/CodeWithHarry"
+        },
+        "description": "Legendary Hindi tech educator. Covers everything from Python to Web Dev to Android.",
+        "reason": "Best for beginners who prefer learning in Hindi. Explains complex concepts simply.",
+        "featured_content": [
+            {
+                "title": "Python for Beginners",
+                "url": "https://www.youtube.com/playlist?list=PLu0W_9lII9agICnT8t4iYVSZ3eykIAOME",
+                "views": "20M+",
+                "description": "Learn Python in One Video"
+            }
+        ],
+        "image": "https://yt3.googleusercontent.com/ytc/AIdro_k5g-iv_y2_k5_k5_k5_k5_k5_k5_k5_k5_k5=s176-c-k-c0x00ffffff-no-rj"
+    },
+    {
+        "id": 4,
+        "name": "Hitesh Choudhury",
+        "username": "@HiteshChoudhurydotcom",
+        "specialty": [
+            "Full-Stack",
+            "DevOps",
+            "JavaScript"
+        ],
+        "language": [
+            "English",
+            "Hindi"
+        ],
+        "platforms": {
+            "youtube": "https://www.youtube.com/@HiteshChoudhurydotcom",
+            "twitter": "https://twitter.com/hiteshdotcom",
+            "github": "https://github.com/hiteshchoudhary"
+        },
+        "description": "Veteran tech educator with a focus on high-quality production and deep dives.",
+        "reason": "Great for understanding the 'why' behind technologies. Excellent DevOps and JS content.",
+        "featured_content": [
+            {
+                "title": "Chai Aur Code",
+                "url": "https://www.youtube.com/@chaiaurcode",
+                "views": "5M+",
+                "description": "Dedicated channel for coding tutorials"
+            }
+        ],
+        "image": "https://yt3.googleusercontent.com/ytc/AIdro_k5g-iv_y2_k5_k5_k5_k5_k5_k5_k5_k5_k5=s176-c-k-c0x00ffffff-no-rj"
+    },
+    {
+        "id": 5,
+        "name": "Apna College",
+        "username": "@ApnaCollege",
+        "specialty": [
+            "DSA",
+            "Placement Prep",
+            "Hindi content"
+        ],
+        "language": [
+            "Hindi"
+        ],
+        "platforms": {
+            "youtube": "https://www.youtube.com/@ApnaCollege",
+            "twitter": "https://twitter.com/ApnaCollege",
+            "github": "https://github.com/ApnaCollege"
+        },
+        "description": "Focuses on college students and placement preparation. Founded by Aman Dhattarwal and Shradha Khapra.",
+        "reason": "Structured placement paths and motivating content for students.",
+        "featured_content": [
+            {
+                "title": "Alpha Placement Batch",
+                "url": "https://www.youtube.com/playlist?list=PLfqMhTWNBTe3LtFWcvwpqTkUSlB32kJop",
+                "views": "15M+",
+                "description": "Complete C++ and DSA"
+            }
+        ],
+        "image": "https://yt3.googleusercontent.com/ytc/AIdro_k5g-iv_y2_k5_k5_k5_k5_k5_k5_k5_k5_k5=s176-c-k-c0x00ffffff-no-rj"
+    },
+    {
+        "id": 6,
+        "name": "Kunal Kushwaha",
+        "username": "@kunalkushwaha",
+        "specialty": [
+            "DevOps",
+            "Cloud",
+            "Open Source",
+            "DSA"
+        ],
+        "language": [
+            "English"
+        ],
+        "platforms": {
+            "youtube": "https://www.youtube.com/@kunalkushwaha",
+            "twitter": "https://twitter.com/kunalstwt",
+            "github": "https://github.com/kunal-kushwaha"
+        },
+        "description": "DevOps engineer and open source advocate. Teaches cloud native technologies and DSA.",
+        "reason": "Best for learning about Open Source, Git, and DevOps tools like Kubernetes.",
+        "featured_content": [
+            {
+                "title": "DevOps Bootcamp",
+                "url": "https://www.youtube.com/playlist?list=PL9gnSGHSqcnr_DxHsP7AW9ftq0AtAyYqJ",
+                "views": "2M+",
+                "description": "Complete DevOps Guide"
+            }
+        ],
+        "image": "https://yt3.googleusercontent.com/ytc/AIdro_k5g-iv_y2_k5_k5_k5_k5_k5_k5_k5_k5_k5=s176-c-k-c0x00ffffff-no-rj"
+    },
+    {
+        "id": 7,
+        "name": "Akshay Saini",
+        "username": "@akshaymarch7",
+        "specialty": [
+            "JavaScript",
+            "Interview Prep",
+            "Frontend"
+        ],
+        "language": [
+            "English"
+        ],
+        "platforms": {
+            "youtube": "https://www.youtube.com/@akshaymarch7",
+            "twitter": "https://twitter.com/akshaymarch7",
+            "github": "https://github.com/akshaymarch7"
+        },
+        "description": "Creator of 'Namaste JavaScript'. Explains JS internals like no one else.",
+        "reason": "Essential for mastering JavaScript concepts like closures, hoisting, and promises.",
+        "featured_content": [
+            {
+                "title": "Namaste JavaScript",
+                "url": "https://www.youtube.com/playlist?list=PLlasXeu85E9cQ32gLCvAvr9vNaUccPVNP",
+                "views": "5M+",
+                "description": "Deep dive into JS"
+            }
+        ],
+        "image": "https://yt3.googleusercontent.com/ytc/AIdro_k5g-iv_y2_k5_k5_k5_k5_k5_k5_k5_k5_k5=s176-c-k-c0x00ffffff-no-rj"
+    },
+    {
+        "id": 8,
+        "name": "Love Babbar",
+        "username": "@LoveBabbar",
+        "specialty": [
+            "DSA",
+            "C++",
+            "Competitive Programming"
+        ],
+        "language": [
+            "Hindi"
+        ],
+        "platforms": {
+            "youtube": "https://www.youtube.com/@LoveBabbar",
+            "twitter": "https://twitter.com/lovebabbar3",
+            "github": "https://github.com/loveBabbar"
+        },
+        "description": "Ex-Amazon, Ex-Microsoft. Known for his DSA sheet and C++ tutorials.",
+        "reason": "Great for competitive programming and mastering C++.",
+        "featured_content": [
+            {
+                "title": "DSA Series",
+                "url": "https://www.youtube.com/playlist?list=PLDzeHZWIZsTryvtXdMr6rPh4XRkIK9h5Z",
+                "views": "8M+",
+                "description": "Complete DSA in C++"
+            }
+        ],
+        "image": "https://yt3.googleusercontent.com/ytc/AIdro_k5g-iv_y2_k5_k5_k5_k5_k5_k5_k5_k5_k5=s176-c-k-c0x00ffffff-no-rj"
+    }
+]
