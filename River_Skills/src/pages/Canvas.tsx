@@ -26,7 +26,22 @@ export default function Canvas() {
     const { theme } = useTheme();
 
     // Canvas State
-    const [elements, setElements] = useState<Shape[]>([]);
+    const [elements, setElements] = useState<Shape[]>(() => {
+        const params = new URLSearchParams(window.location.search);
+        const challenge = params.get('challenge');
+        if (challenge) {
+            return [{
+                id: Math.random().toString(36).substr(2, 9),
+                type: 'text',
+                x: 100,
+                y: 100,
+                text: `Challenge: ${challenge}`,
+                color: '#3B82F6', // Default blue, can't access theme here easily without context, but that's fine
+                strokeWidth: 6
+            }];
+        }
+        return [];
+    });
     const [history, setHistory] = useState<Shape[][]>([]);
     const [historyStep, setHistoryStep] = useState(-1);
 

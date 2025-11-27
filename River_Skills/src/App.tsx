@@ -5,7 +5,6 @@ import AITools from './pages/AITools';
 import Canvas from './pages/Canvas';
 import Resources from './pages/Resources';
 import Creators from './pages/Creators';
-import Handbook from './pages/Handbook';
 
 function App() {
   return (
@@ -15,7 +14,6 @@ function App() {
           <Route index element={<Courses />} />
           <Route path="courses" element={<Courses />} />
           <Route path="creators" element={<Creators />} />
-          <Route path="handbook" element={<Handbook />} />
           <Route path="ai-tools" element={<AITools />} />
           <Route path="canvas" element={<Canvas />} />
           <Route path="resources" element={<Resources />} />

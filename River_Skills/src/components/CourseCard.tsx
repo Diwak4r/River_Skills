@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Clock, Globe, Heart, Share2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Clock, Users, ArrowRight, Zap, Briefcase, Code } from 'lucide-react';
 
 interface Course {
     id: number;
@@ -13,87 +14,204 @@ interface Course {
     duration: string;
     instructor_lang: string;
     image?: string;
+    rating?: number;
+    reviewCount?: number;
+    students?: number;
+    tags?: string[];
+    careerRelevance?: string;
 }
 
-export default function CourseCard({ course, index }: { course: Course; index: number }) {
+interface CourseCardProps {
+    course: Course;
+    index: number;
+    isCompact?: boolean;
+}
+
+const categoryColors: Record<string, string> = {
+    'Web Dev': 'bg-[#14b8a6]', // Solid Teal
+    'AI': 'bg-[#f97316]',      // Solid Orange
+    'DSA': 'bg-[#10b981]',     // Solid Emerald
+    'System Design': 'bg-[#f59e0b]', // Solid Amber
+    'Finance': 'bg-[#eab308]', // Solid Yellow
+    'Coding': 'bg-[#84cc16]',  // Solid Lime
+    'Default': 'bg-[#64748b]'  // Solid Slate
+};
+
+export default function CourseCard({ course, index, isCompact = false }: CourseCardProps) {
+    // Calculate Vibe Score (Mock Logic)
+    const vibeScore = Math.min(100, Math.round(((course.rating || 0) * 18) + ((course.reviewCount || 0) > 1000 ? 10 : 5)));
+
+    const bgColor = categoryColors[course.category] || categoryColors['Default'];
+
+    if (isCompact) {
+        return (
+            <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.03 }}
+                className="group flex items-center gap-4 p-4 bg-surface/50 backdrop-blur-sm border border-white/5 rounded-xl hover:border-accent/30 transition-all duration-300 hover:bg-surface-hover/50"
+            >
+                {/* Minimal Visual Indicator */}
+                <div className={`w-2 h-16 rounded-full ${bgColor} flex-shrink-0 shadow-[0_0_10px_rgba(0,0,0,0.2)]`} />
+
+                <div className="flex-grow min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                        <h3 className="text-base font-bold text-text-primary truncate group-hover:text-accent transition-colors">
+                            {course.title}
+                        </h3>
+                        {course.tags?.includes('Popular') && (
+                            <span className="px-1.5 py-0.5 bg-accent/10 text-accent text-[10px] font-bold uppercase rounded border border-accent/20">
+                                Hot
+                            </span>
+                        )}
+                    </div>
+                    <p className="text-sm text-text-secondary truncate">by {course.instructor}</p>
+                </div>
+
+                {/* Career Relevance (Compact) */}
+                {course.careerRelevance && (
+                    <div className="hidden lg:flex items-center gap-1.5 px-3 py-1 rounded-md bg-surface-hover/50 border border-white/5 text-xs font-medium text-text-secondary mr-4">
+                        <Briefcase className="w-3.5 h-3.5 text-accent" />
+                        <span className="truncate max-w-[150px]">{course.careerRelevance}</span>
+                    </div>
+                )}
+
+                {/* Vibe Score */}
+                <div className="flex flex-col items-center px-4 border-l border-white/10">
+                    <span className="text-xs text-text-secondary uppercase font-bold tracking-wider">Vibe</span>
+                    <span className="text-lg font-black text-accent">{vibeScore}</span>
+                </div>
+
+                {/* Stats */}
+                <div className="hidden md:flex items-center gap-6 text-sm text-text-secondary mr-4">
+                    <div className="flex items-center gap-1.5">
+                        <Users className="w-4 h-4" />
+                        <span>{course.students?.toLocaleString()}</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                        <Clock className="w-4 h-4" />
+                        <span>{course.duration}</span>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-2">
+                    <Link
+                        to={`/canvas?challenge=Practice ${course.title}`}
+                        className="p-2 rounded-lg bg-surface/50 text-text-secondary hover:bg-accent/10 hover:text-accent transition-colors border border-transparent hover:border-accent/20"
+                        title="Practice on Canvas"
+                    >
+                        <Code className="w-4 h-4" />
+                    </Link>
+                    <a
+                        href={course.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="p-2 rounded-lg bg-surface/50 text-text-secondary hover:bg-accent hover:text-white transition-colors border border-transparent hover:border-accent/20"
+                    >
+                        <ArrowRight className="w-4 h-4" />
+                    </a>
+                </div>
+            </motion.div>
+        );
+    }
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
-            className="group bg-surface border border-border rounded-xl overflow-hidden hover:border-text-secondary transition-all duration-200 flex flex-col h-full"
+            className="group flex flex-col h-full bg-surface/40 backdrop-blur-md border border-white/5 rounded-2xl overflow-hidden hover:border-accent/30 transition-all duration-500 hover:shadow-2xl hover:shadow-accent/5 hover:-translate-y-1"
         >
-            {/* Thumbnail Area */}
-            <div className={`h-40 relative flex items-center justify-center overflow-hidden ${!course.image ? (
-                    course.category === 'Web Dev' ? 'bg-[#3B82F6]' : // Blue
-                        course.category === 'AI' ? 'bg-[#10B981]' :      // Emerald
-                            course.category === 'DSA' ? 'bg-[#F59E0B]' :     // Amber
-                                'bg-[#8B5CF6]'                                   // Violet
-                ) : 'bg-surface'
-                }`}>
-                {course.image ? (
-                    <img
-                        src={course.image}
-                        alt={course.title}
-                        className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity duration-300"
-                    />
-                ) : (
-                    <div className="text-4xl font-bold text-white opacity-20 tracking-tighter">
-                        {course.category}
-                    </div>
-                )}
+            {/* Image Area */}
+            <div className="relative h-48 overflow-hidden">
+                <img
+                    src={course.image}
+                    alt={course.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    loading="lazy"
+                />
+
+                {/* Overlay Gradient for Text Readability */}
+                <div className="absolute inset-0 bg-gradient-to-t from-surface via-surface/20 to-transparent opacity-90" />
 
                 {/* Badges */}
-                <div className="absolute top-3 left-3 flex gap-2">
-                    <span className="px-2 py-1 bg-black/40 backdrop-blur-sm rounded text-[10px] font-bold uppercase tracking-wider text-white border border-white/10">
-                        {course.difficulty}
+                <div className="absolute top-3 left-3 flex flex-wrap gap-2">
+                    <span className="px-2.5 py-1 bg-black/40 backdrop-blur-md border border-white/10 text-white text-[10px] font-bold uppercase tracking-wider rounded-md shadow-sm">
+                        {course.category}
                     </span>
                 </div>
 
-                <div className="absolute bottom-3 right-3 px-2 py-1 bg-black/40 backdrop-blur-sm rounded text-xs font-medium text-white flex items-center gap-1 border border-white/10">
-                    <Clock className="w-3 h-3" />
-                    {course.duration}
+                {/* Vibe Score Badge */}
+                <div className="absolute bottom-3 right-3 flex items-center gap-1.5 px-3 py-1.5 bg-black/60 backdrop-blur-md border border-white/10 text-white rounded-full shadow-lg">
+                    <Zap className="w-3 h-3 text-yellow-400 fill-current" />
+                    <span className="text-xs font-bold">{vibeScore}</span>
                 </div>
             </div>
 
             {/* Content */}
-            <div className="p-5 flex flex-col flex-grow">
-                <h3 className="text-lg font-bold text-text-primary mb-1 line-clamp-2">
-                    {course.title}
-                </h3>
-                <p className="text-sm text-text-secondary mb-3">{course.instructor}</p>
+            <div className="p-6 flex flex-col flex-grow relative">
+                <div className="mb-3">
+                    <h3 className="text-xl font-bold text-text-primary leading-tight line-clamp-2 group-hover:text-accent transition-colors">
+                        {course.title}
+                    </h3>
+                    <p className="text-sm text-text-secondary mt-1 font-medium flex items-center gap-1">
+                        <span className="w-1 h-1 rounded-full bg-accent inline-block" />
+                        by {course.instructor}
+                    </p>
+                </div>
 
-                <p className="text-sm text-text-secondary line-clamp-2 mb-4 flex-grow">
-                    {course.description}
-                </p>
-
-                {/* Stats Row */}
-                <div className="flex items-center gap-4 text-xs text-text-secondary mb-4 pt-4 border-t border-border">
-                    <div className="flex items-center gap-1">
-                        <span className="text-text-primary">★</span> 4.8
+                {/* Career Relevance Badge */}
+                {course.careerRelevance && (
+                    <div className="mb-5 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/5 border border-accent/10 text-xs font-medium text-accent w-fit">
+                        <Briefcase className="w-3 h-3" />
+                        {course.careerRelevance}
                     </div>
-                    <div className="flex items-center gap-1">
-                        <Globe className="w-3 h-3" />
-                        {course.instructor_lang}
+                )}
+
+                {/* Key Metrics Grid */}
+                <div className="grid grid-cols-2 gap-3 mb-6">
+                    <div className="flex items-center gap-2 p-2.5 rounded-xl bg-surface/50 border border-white/5">
+                        <Users className="w-4 h-4 text-text-secondary" />
+                        <span className="text-xs font-semibold text-text-primary">{course.students?.toLocaleString()}</span>
+                    </div>
+                    <div className="flex items-center gap-2 p-2.5 rounded-xl bg-surface/50 border border-white/5">
+                        <Clock className="w-4 h-4 text-text-secondary" />
+                        <span className="text-xs font-semibold text-text-primary">{course.duration}</span>
                     </div>
                 </div>
 
-                {/* Actions */}
-                <div className="grid grid-cols-[1fr,auto,auto] gap-2">
-                    <a
-                        href={course.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-primary-foreground text-sm font-bold py-2 rounded-lg transition-colors"
-                    >
-                        Start Learning
-                    </a>
-                    <button className="p-2 rounded-lg border border-border hover:border-text-secondary text-text-secondary hover:text-text-primary transition-colors">
-                        <Heart className="w-4 h-4" />
-                    </button>
-                    <button className="p-2 rounded-lg border border-border hover:border-text-secondary text-text-secondary hover:text-text-primary transition-colors">
-                        <Share2 className="w-4 h-4" />
-                    </button>
+                <p className="text-sm text-text-secondary line-clamp-2 mb-6 flex-grow leading-relaxed">
+                    {course.description}
+                </p>
+
+                {/* Footer Info & Action */}
+                <div className="pt-5 border-t border-white/5 flex items-center justify-between mt-auto">
+                    <div className="flex items-center gap-2 text-xs font-medium text-text-secondary">
+                        <span className={`px-2.5 py-1 rounded-md border ${course.difficulty === 'Beginner' ? 'border-green-500/20 text-green-500 bg-green-500/5' :
+                            course.difficulty === 'Intermediate' ? 'border-yellow-500/20 text-yellow-500 bg-yellow-500/5' :
+                                'border-red-500/20 text-red-500 bg-red-500/5'
+                            }`}>
+                            {course.difficulty}
+                        </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <Link
+                            to={`/canvas?challenge=Practice ${course.title}`}
+                            className="p-2.5 rounded-xl bg-surface text-text-secondary hover:bg-accent/10 hover:text-accent transition-colors border border-white/5 hover:border-accent/20"
+                            title="Practice on Canvas"
+                        >
+                            <Code className="w-4 h-4" />
+                        </Link>
+                        <a
+                            href={course.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-text-primary text-background text-xs font-bold uppercase tracking-wide hover:opacity-90 transition-all duration-300 shadow-lg shadow-primary/20"
+                        >
+                            Start <ArrowRight className="w-3 h-3" />
+                        </a>
+                    </div>
                 </div>
             </div>
         </motion.div>

@@ -7,7 +7,7 @@ export default function Newsletter() {
     const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
     const [message, setMessage] = useState('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         if (!email) {
@@ -22,17 +22,31 @@ export default function Newsletter() {
             return;
         }
 
-        // Simulate API call
         setStatus('idle');
-        setTimeout(() => {
+
+        try {
+            const response = await fetch('http://localhost:3000/api/subscribe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || 'Something went wrong');
+            }
+
             setStatus('success');
-            setMessage('Thanks for subscribing! Check your inbox soon.');
+            setMessage(data.message || 'Thanks for subscribing! Check your inbox soon.');
             setEmail('');
-            // Store in local storage for demo
-            const subscribers = JSON.parse(localStorage.getItem('subscribers') || '[]');
-            subscribers.push(email);
-            localStorage.setItem('subscribers', JSON.stringify(subscribers));
-        }, 1000);
+        } catch (error) {
+            setStatus('error');
+            const errorMessage = error instanceof Error ? error.message : 'Failed to subscribe. Please try again.';
+            setMessage(errorMessage);
+        }
     };
 
     return (
