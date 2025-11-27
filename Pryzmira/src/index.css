@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* LIGHT MODE - Slate & Amber Adapted */
+  --background: 255 255 255;
+  --surface: 241 245 249; /* Slate 100 */
+  --surface-hover: 226 232 240; /* Slate 200 */
+  --border: 226 232 240; /* Slate 200 */
+
+  --primary: 15 23 42; /* Slate 900 */
+  --primary-foreground: 255 255 255;
+
+  --accent: 251 191 36; /* Amber 400 */
+  --accent-foreground: 15 23 42; /* Slate 900 */
+  --accent-hover: 245 158 11; /* Amber 500 */
+
+  --text-primary: 15 23 42; /* Slate 900 */
+  --text-secondary: 100 116 139; /* Slate 500 */
+}
+
+.dark {
+  /* DARK MODE - Slate & Amber Premium */
+  --background: 15 23 42; /* #0F172A - Deep Slate */
+  --surface: 30 41 59; /* #1E293B - Slate */
+  --surface-hover: 51 65 85; /* #334155 - Lighter Slate */
+  --border: 51 65 85; /* #334155 - Slate with opacity */
+
+  --primary: 241 245 249; /* #F1F5F9 - Off-white */
+  --primary-foreground: 15 23 42; /* #0F172A */
+
+  --accent: 251 191 36; /* #FBBF24 - Warm Amber */
+  --accent-foreground: 15 23 42; /* #0F172A */
+  --accent-hover: 245 158 11; /* #F59E0B */
+
+  --text-primary: 241 245 249; /* #F1F5F9 */
+  --text-secondary: 148 163 184; /* #94A3B8 - Muted Slate */
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+
+@layer base {
+  body {
+    @apply bg-background text-text-primary font-sans antialiased overflow-x-hidden transition-colors duration-300;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    background-image:
+      radial-gradient(circle at 50% 0%, rgba(251, 191, 36, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 100% 0%, rgba(245, 158, 11, 0.03) 0%, transparent 30%);
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-surface/80 backdrop-blur-xl border border-white/5 shadow-xl;
+  }
+
+  .glass-card {
+    @apply bg-surface/50 backdrop-blur-md border border-white/5 hover:border-accent/30 transition-all duration-300 hover:shadow-lg hover:shadow-accent/10;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-primary to-text-secondary;
+  }
+
+  .text-gradient-accent {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-accent to-amber-500;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+/* Custom Premium Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-border/50 rounded-full hover:bg-accent/50 transition-colors;
+}
